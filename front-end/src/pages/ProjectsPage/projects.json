@@ -13,15 +13,5 @@
     "name": "Warehouse Automation",
     "description": "Implement automation features in the warehouse management system",
     "alias": "warehouseAutomation"
-  },
-  {
-    "name": "Sample Project",
-    "description": "Sample",
-    "alias": "test"
-  },
-  {
-    "name": "Sample Project",
-    "description": "Sample",
-    "alias": "test"
   }
 ]

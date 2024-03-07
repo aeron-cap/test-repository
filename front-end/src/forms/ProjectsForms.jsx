@@ -12,13 +12,12 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 
 const initialData = {
-  firstName: "",
-  middleName: "",
-  lastName: "",
-  type: "",
+  name: "",
+  description: "",
+  alias: "",
 };
 
-const ResourcesForms = ({ onAdd = () => {}, onExit = () => {} }) => {
+const ProjectForms = ({ onAdd = () => {}, onExit = () => {} }) => {
   const [formData, setFormData] = useState(initialData);
 
   const handleAdd = (e) => {
@@ -42,40 +41,31 @@ const ResourcesForms = ({ onAdd = () => {}, onExit = () => {} }) => {
 
   return (
     <form onSubmit={handleAdd}>
-      <Stack w="container.md">
+      <Stack width="100%">
         <FormControl>
-          <FormLabel>First Name</FormLabel>
+          <FormLabel>Project Name</FormLabel>
           <Input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Middle Name</FormLabel>
+          <FormLabel>Alias</FormLabel>
           <Input
             type="text"
-            name="middleName"
-            value={formData.middleName}
+            name="alias"
+            value={formData.alias}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Last Name</FormLabel>
+          <FormLabel>Description</FormLabel>
           <Input
             type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Type</FormLabel>
-          <Input
-            type="text"
-            name="type"
-            value={formData.type}
+            name="description"
+            value={formData.description}
             onChange={handleChange}
           />
         </FormControl>
@@ -103,6 +93,6 @@ const ResourcesForms = ({ onAdd = () => {}, onExit = () => {} }) => {
   );
 };
 
-ResourcesForms.propTypes = { onAdd: PropTypes.func, onExit: PropTypes.func };
+ProjectForms.propTypes = { onAdd: PropTypes.func, onExit: PropTypes.func };
 
-export default ResourcesForms;
+export default ProjectForms;

@@ -9,14 +9,16 @@ function App() {
       <Box>
         <Flex>
           <VStack
+            minW="10vw"
             fontSize="20px"
-            fontWeight="medium"
+            fontWeight="bold"
             spacing="24px"
             bg="white"
             boxShadow="2px 0 4px rgba(0, 0, 0, 0.3)"
             padding="20px"
             paddingTop="50px"
             fontFamily="Roboto, sans-serif"
+            alignItems="flex-start"
           >
             <NavigationItem to="/"> Home </NavigationItem>
             <NavigationItem to="/resources"> Resources </NavigationItem>

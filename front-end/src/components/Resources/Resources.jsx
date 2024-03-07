@@ -6,23 +6,25 @@ import {
   Th,
   Td,
   TableContainer,
-  Heading,
+  Flex,
+  Button,
+  Center,
 } from "@chakra-ui/react";
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 
-const Resources = ({ data = [] }) => {
+const Resources = ({ data = [], onDelete = () => {} }) => {
   return (
     <Fragment>
-      <TableContainer minWidth="50vw" p={5}>
-        <Heading size="xl" paddingTop={10} paddingBottom={5}>
-          Resources
-        </Heading>
+      <TableContainer w="container.md">
         <Table bg="white" borderRadius="md">
-          <Thead>
+          <Thead position="sticky">
             <Tr>
               <Th>Name</Th>
               <Th>Type</Th>
+              <Th isNumeric>
+                <Center>Actions</Center>
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -36,6 +38,18 @@ const Resources = ({ data = [] }) => {
                       }${resources?.lastName}`}
                     </Td>
                     <Td>{resources?.type}</Td>
+                    <Td isNumeric>
+                      <Flex justifyContent="center" alignItems="center">
+                        <Button
+                          variant="outline"
+                          colorScheme="red"
+                          size="m"
+                          onClick={() => onDelete(resourceIndex)}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </Td>
                   </Tr>
                 );
               })}
@@ -46,6 +60,6 @@ const Resources = ({ data = [] }) => {
   );
 };
 
-Resources.propTypes = { data: PropTypes.array };
+Resources.propTypes = { data: PropTypes.array, onDelete: PropTypes.func };
 
 export default Resources;

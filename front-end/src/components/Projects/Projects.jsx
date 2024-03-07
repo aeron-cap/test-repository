@@ -1,35 +1,55 @@
-import projects from "./projects.json";
-import { Box, SimpleGrid, Text, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  SimpleGrid,
+  Text,
+  Heading,
+  Button,
+  HStack,
+} from "@chakra-ui/react";
 import { Fragment } from "react";
+import PropTypes from "prop-types";
 
-const data = projects;
-
-function Projects() {
+const Projects = ({ data = [], onDelete = () => {} }) => {
   return (
     <Fragment>
       <Box>
-        <Heading size="xl" paddingTop={10} paddingBottom={5}>
-          Projects
-        </Heading>
         <SimpleGrid columns={2} spacing={4} borderWidth="1px" borderRadius="lg">
-          {data.map((val, key) => {
-            return (
-              <Box
-                key={key}
-                p={4}
-                borderWidth="1px"
-                borderRadius="lg"
-                bg="white"
-              >
-                <Heading size="md">{val.name}</Heading>
-                <Text color="gray.400">{val.alias}</Text>
-                <Text>{val.description}</Text>
-              </Box>
-            );
-          })}
+          {data?.length > 0 &&
+            data.map((projects = {}, projectIndex) => {
+              return (
+                <Box
+                  key={`project-${projectIndex}`}
+                  p={4}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  bg="white"
+                  isNumeric
+                >
+                  <HStack
+                    justifyContent="space-between"
+                    alignItems="flex-start"
+                  >
+                    <Heading size="md">{projects.name}</Heading>
+                    <Button
+                      size="m"
+                      onClick={() => onDelete(projectIndex)}
+                      variant="outline"
+                      colorScheme="red"
+                    >
+                      Delete
+                    </Button>
+                  </HStack>
+
+                  <Text color="gray.400">{projects.alias}</Text>
+                  <Text>{projects.description}</Text>
+                </Box>
+              );
+            })}
         </SimpleGrid>
       </Box>
     </Fragment>
   );
-}
+};
+Projects.propTypes = { data: PropTypes.array, onDelete: PropTypes.func };
+
 export default Projects;

@@ -10,7 +10,7 @@ const NavigationItem = ({ to, children }) => {
   // Define styles for active and inactive navigation items
   const navItemStyle = {
     color: isActive ? "blue" : "black",
-    fontWeight: isActive ? "normal" : "normal",
+    fontWeight: isActive ? "bold" : "normal",
   };
 
   return (
