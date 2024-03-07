@@ -12,13 +12,14 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 
 const initialData = {
-  firstName: "",
-  middleName: "",
-  lastName: "",
-  type: "",
+  name: "",
+  contactPerson: "",
+  email: "",
+  address: "",
+  contactNumber: "",
 };
 
-const ResourcesForms = ({ onAdd = () => {}, onExit = () => {} }) => {
+const CompanyForms = ({ onAdd = () => {}, onExit = () => {} }) => {
   const [formData, setFormData] = useState(initialData);
 
   const handleAdd = (e) => {
@@ -44,38 +45,47 @@ const ResourcesForms = ({ onAdd = () => {}, onExit = () => {} }) => {
     <form onSubmit={handleAdd}>
       <Stack>
         <FormControl>
-          <FormLabel>First Name</FormLabel>
+          <FormLabel>Name</FormLabel>
           <Input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Middle Name</FormLabel>
+          <FormLabel>Contact Person</FormLabel>
           <Input
             type="text"
-            name="middleName"
-            value={formData.middleName}
+            name="contactPerson"
+            value={formData.contactPerson}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Last Name</FormLabel>
+          <FormLabel>E Mail</FormLabel>
           <Input
             type="text"
-            name="lastName"
-            value={formData.lastName}
+            name="email"
+            value={formData.email}
             onChange={handleChange}
           />
         </FormControl>
         <FormControl>
-          <FormLabel>Type</FormLabel>
+          <FormLabel>Address</FormLabel>
           <Input
             type="text"
-            name="type"
-            value={formData.type}
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Contact Number</FormLabel>
+          <Input
+            type="text"
+            name="contactNumber"
+            value={formData.contactNumber}
             onChange={handleChange}
           />
         </FormControl>
@@ -103,6 +113,6 @@ const ResourcesForms = ({ onAdd = () => {}, onExit = () => {} }) => {
   );
 };
 
-ResourcesForms.propTypes = { onAdd: PropTypes.func, onExit: PropTypes.func };
+CompanyForms.propTypes = { onAdd: PropTypes.func, onExit: PropTypes.func };
 
-export default ResourcesForms;
+export default CompanyForms;

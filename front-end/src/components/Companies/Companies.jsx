@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import companies from "./companies.json";
 import {
   Table,
   Thead,
@@ -8,18 +7,16 @@ import {
   Th,
   Td,
   TableContainer,
-  Heading,
+  Center,
+  Flex,
+  Button,
 } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
-const data = companies;
-
-function Companies() {
+const Companies = ({ data = [], onDelete = () => {} }) => {
   return (
     <Fragment>
       <TableContainer minWidth="50vw" p={5}>
-        <Heading size="xl" paddingTop={10} paddingBottom={5}>
-          Companies
-        </Heading>
         <Table bg="white" borderRadius="md">
           <Thead>
             <Tr>
@@ -28,25 +25,43 @@ function Companies() {
               <Th>E mail</Th>
               <Th>Address</Th>
               <Th>Contact Number</Th>
+              <Th isNumeric>
+                <Center>Actions</Center>
+              </Th>
             </Tr>
           </Thead>
-
           <Tbody>
-            {data.map((val, key) => {
-              return (
-                <Tr key={key}>
-                  <Td>{val.name}</Td>
-                  <Td>{val.contactPerson}</Td>
-                  <Td>{val.email}</Td>
-                  <Td>{val.address}</Td>
-                  <Td>{val.contactNumber}</Td>
-                </Tr>
-              );
-            })}
+            {data?.length > 0 &&
+              data.map((companies = {}, companyIndex) => {
+                return (
+                  <Tr key={`company-${companyIndex}`}>
+                    <Td>{companies?.name}</Td>
+                    <Td>{companies?.contactPerson}</Td>
+                    <Td>{companies?.email}</Td>
+                    <Td>{companies?.address}</Td>
+                    <Td>{companies?.contactNumber}</Td>
+                    <Td isNumeric>
+                      <Flex justifyContent="center" alignItems="center">
+                        <Button
+                          variant="outline"
+                          colorScheme="red"
+                          size="m"
+                          onClick={() => onDelete(companyIndex)}
+                        >
+                          Delete
+                        </Button>
+                      </Flex>
+                    </Td>
+                  </Tr>
+                );
+              })}
           </Tbody>
         </Table>
       </TableContainer>
     </Fragment>
   );
-}
+};
+
+Companies.propTypes = { data: PropTypes.array, onDelete: PropTypes.func };
+
 export default Companies;
