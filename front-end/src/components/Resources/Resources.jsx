@@ -9,11 +9,12 @@ import {
   Flex,
   Button,
   Center,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 
-const Resources = ({ data = [], onDelete = () => {} }) => {
+const Resources = ({ data = [], onDelete = () => {}, onEdit = () => {} }) => {
   return (
     <Fragment>
       <TableContainer w="container.md">
@@ -40,14 +41,23 @@ const Resources = ({ data = [], onDelete = () => {} }) => {
                     <Td>{resources?.type}</Td>
                     <Td isNumeric>
                       <Flex justifyContent="center" alignItems="center">
-                        <Button
-                          variant="outline"
-                          colorScheme="red"
-                          size="sm"
-                          onClick={() => onDelete(resources?.id)}
-                        >
-                          Delete
-                        </Button>
+                        <ButtonGroup>
+                          <Button
+                            colorScheme="green"
+                            size="sm"
+                            onClick={() => onEdit(resources?.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="outline"
+                            colorScheme="red"
+                            size="sm"
+                            onClick={() => onDelete(resources?.id)}
+                          >
+                            Delete
+                          </Button>
+                        </ButtonGroup>
                       </Flex>
                     </Td>
                   </Tr>
@@ -60,6 +70,10 @@ const Resources = ({ data = [], onDelete = () => {} }) => {
   );
 };
 
-Resources.propTypes = { data: PropTypes.array, onDelete: PropTypes.func };
+Resources.propTypes = {
+  data: PropTypes.array,
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
+};
 
 export default Resources;
