@@ -23,7 +23,7 @@ const ResourcesPage = () => {
 
     if (status) {
       const newResourceData = [...resourcesData];
-      if (data?.id > 1) {
+      if (data?.id > -1) {
         const index = newResourceData.findIndex((item) => item.id === data.id);
         if (index !== -1) {
           newResourceData.splice(index, 1, newData);

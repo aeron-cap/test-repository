@@ -9,7 +9,8 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import mockApi from "../utils/mockApi";
 
 const initialData = {
   name: "",
@@ -17,8 +18,9 @@ const initialData = {
   alias: "",
 };
 
-const ProjectForms = ({ onAdd = () => {}, onExit = () => {} }) => {
+const ProjectForms = ({ id = -1, onAdd = () => {}, onExit = () => {} }) => {
   const [formData, setFormData] = useState(initialData);
+  const fetched = useRef(false);
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -38,6 +40,17 @@ const ProjectForms = ({ onAdd = () => {}, onExit = () => {} }) => {
     setFormData(initialData);
     onExit();
   };
+
+  useEffect(() => {
+    // console.log(id);
+    if (id === -1 || fetched.current) return;
+    const requestData = mockApi("GET", `/projects/${id}`);
+    const { status = false, data = {} } = requestData;
+    if (status) {
+      fetched.current = true;
+      setFormData(data);
+    }
+  }, [id]);
 
   return (
     <form onSubmit={handleAdd}>
@@ -76,7 +89,7 @@ const ProjectForms = ({ onAdd = () => {}, onExit = () => {} }) => {
               Back
             </Button>
             <Button colorScheme="green" type="submit">
-              Add Resource
+              {id === -1 ? `Add` : `Update`} Project
             </Button>
             <Button
               colorScheme="gray"
@@ -93,6 +106,10 @@ const ProjectForms = ({ onAdd = () => {}, onExit = () => {} }) => {
   );
 };
 
-ProjectForms.propTypes = { onAdd: PropTypes.func, onExit: PropTypes.func };
+ProjectForms.propTypes = {
+  id: PropTypes.number,
+  onAdd: PropTypes.func,
+  onExit: PropTypes.func,
+};
 
 export default ProjectForms;

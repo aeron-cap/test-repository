@@ -5,20 +5,21 @@ import {
   Heading,
   Button,
   HStack,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 
-const Projects = ({ data = [], onDelete = () => {} }) => {
+const Projects = ({ data = [], onDelete = () => {}, onEdit = () => {} }) => {
   return (
     <Fragment>
       <Box>
         <SimpleGrid columns={2} spacing={4} borderWidth="1px" borderRadius="lg">
           {data?.length > 0 &&
-            data.map((projects = {}, projectIndex) => {
+            data.map((projects = {}, id) => {
               return (
                 <Box
-                  key={`project-${projectIndex}`}
+                  key={`project-${id}`}
                   p={4}
                   borderWidth="1px"
                   borderRadius="lg"
@@ -30,14 +31,23 @@ const Projects = ({ data = [], onDelete = () => {} }) => {
                     alignItems="flex-start"
                   >
                     <Heading size="md">{projects.name}</Heading>
-                    <Button
-                      size="m"
-                      onClick={() => onDelete(projectIndex)}
-                      variant="outline"
-                      colorScheme="red"
-                    >
-                      Delete
-                    </Button>
+                    <ButtonGroup>
+                      <Button
+                        size="sm"
+                        onClick={() => onEdit(projects?.id)}
+                        colorScheme="green"
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={() => onDelete(projects?.id)}
+                        variant="outline"
+                        colorScheme="red"
+                      >
+                        Delete
+                      </Button>
+                    </ButtonGroup>
                   </HStack>
 
                   <Text color="gray.400">{projects.alias}</Text>
@@ -50,6 +60,10 @@ const Projects = ({ data = [], onDelete = () => {} }) => {
     </Fragment>
   );
 };
-Projects.propTypes = { data: PropTypes.array, onDelete: PropTypes.func };
+Projects.propTypes = {
+  data: PropTypes.array,
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
+};
 
 export default Projects;
