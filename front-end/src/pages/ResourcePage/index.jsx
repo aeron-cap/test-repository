@@ -25,7 +25,7 @@ const ResourcesPage = () => {
       const newResourceData = [...resourcesData];
       if (data?.id > -1) {
         const index = newResourceData.findIndex((item) => item.id === data.id);
-        if (index !== -1) {
+        if (index === -1) {
           newResourceData.splice(index, 1, newData);
         }
       } else {
@@ -34,12 +34,12 @@ const ResourcesPage = () => {
       setResourceData(newResourceData);
       setIsAdding(false);
     }
+    setEditId(-1);
   };
 
   const handleEditResource = (id) => {
     setIsAdding(true);
     setEditId(id);
-    console.log(id);
   };
 
   const handleDelete = (id) => {
@@ -55,6 +55,11 @@ const ResourcesPage = () => {
         setResourceData(newData);
       }
     }
+  };
+
+  const handleCancel = () => {
+    setIsAdding(false);
+    setEditId(-1);
   };
 
   const loadData = () => {
@@ -89,7 +94,7 @@ const ResourcesPage = () => {
                 <ResourcesForms
                   id={editId}
                   onAdd={handleAdd}
-                  onExit={() => setIsAdding(false)}
+                  onExit={handleCancel}
                 />
               </CardBody>
             </Card>

@@ -14,6 +14,9 @@ const Header = ({ isAdding = false, toggle }) => {
     </HStack>
   );
 };
-Header.propTypes = { isAdding: PropTypes.bool, toggle: PropTypes.func };
+Header.propTypes = {
+  isAdding: PropTypes.bool,
+  toggle: PropTypes.func,
+};
 
 export default Header;

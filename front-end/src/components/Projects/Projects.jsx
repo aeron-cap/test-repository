@@ -24,7 +24,6 @@ const Projects = ({ data = [], onDelete = () => {}, onEdit = () => {} }) => {
                   borderWidth="1px"
                   borderRadius="lg"
                   bg="white"
-                  isNumeric
                 >
                   <HStack
                     justifyContent="space-between"

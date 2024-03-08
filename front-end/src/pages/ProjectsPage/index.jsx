@@ -57,6 +57,11 @@ const ProjectsPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    setIsAdding(false);
+    setEditId(-1);
+  };
+
   const loadData = () => {
     if (fetched.current) return;
     const requestData = mockApi("GET", "/projects");
@@ -91,7 +96,7 @@ const ProjectsPage = () => {
                     <ProjectForms
                       id={editId}
                       onAdd={handleAdd}
-                      onExit={() => setIsAdding(false)}
+                      onExit={handleCancel}
                     />
                   </CardBody>
                 </Card>

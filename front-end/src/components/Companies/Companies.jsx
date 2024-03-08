@@ -10,10 +10,11 @@ import {
   Center,
   Flex,
   Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-const Companies = ({ data = [], onDelete = () => {} }) => {
+const Companies = ({ data = [], onDelete = () => {}, onEdit = () => {} }) => {
   return (
     <Fragment>
       <TableContainer minWidth="50vw" p={5}>
@@ -32,9 +33,9 @@ const Companies = ({ data = [], onDelete = () => {} }) => {
           </Thead>
           <Tbody>
             {data?.length > 0 &&
-              data.map((companies = {}, companyIndex) => {
+              data.map((companies = {}, id) => {
                 return (
-                  <Tr key={`company-${companyIndex}`}>
+                  <Tr key={`company-${id}`}>
                     <Td>{companies?.name}</Td>
                     <Td>{companies?.contactPerson}</Td>
                     <Td>{companies?.email}</Td>
@@ -42,14 +43,23 @@ const Companies = ({ data = [], onDelete = () => {} }) => {
                     <Td>{companies?.contactNumber}</Td>
                     <Td isNumeric>
                       <Flex justifyContent="center" alignItems="center">
-                        <Button
-                          variant="outline"
-                          colorScheme="red"
-                          size="m"
-                          onClick={() => onDelete(companyIndex)}
-                        >
-                          Delete
-                        </Button>
+                        <ButtonGroup>
+                          <Button
+                            colorScheme="green"
+                            size="sm"
+                            onClick={() => onEdit(companies?.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="outline"
+                            colorScheme="red"
+                            size="sm"
+                            onClick={() => onDelete(companies?.id)}
+                          >
+                            Delete
+                          </Button>
+                        </ButtonGroup>
                       </Flex>
                     </Td>
                   </Tr>
@@ -62,6 +72,10 @@ const Companies = ({ data = [], onDelete = () => {} }) => {
   );
 };
 
-Companies.propTypes = { data: PropTypes.array, onDelete: PropTypes.func };
+Companies.propTypes = {
+  data: PropTypes.array,
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
+};
 
 export default Companies;
