@@ -8,14 +8,13 @@ import {
   Grid,
 } from "@chakra-ui/react";
 import Projects from "../../components/Projects/Projects";
-import initialData from "./projects.json";
 import { useState } from "react";
 import ProjectForms from "../../forms/ProjectsForms";
 import Heading from "./Heading";
 
 const ProjectsPage = () => {
   const [isAdding, setIsAdding] = useState(false);
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]);
 
   const handleAdd = (newData = {}) => {
     setData((prevData) => {

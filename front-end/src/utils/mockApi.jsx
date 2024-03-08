@@ -8,6 +8,10 @@ let companies = [...initialCompanies];
 
 const findById = (array, id) => array.find((item) => item.id === id);
 
+//resources All resources are array = []
+//projects
+//companies
+
 const mockApi = (method, endpoint, data = null) => {
   let requestText = `Request Made: %c${method} - ${endpoint} ${
     data !== null ? `${JSON.stringify(data)}` : ``

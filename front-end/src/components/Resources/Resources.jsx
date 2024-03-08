@@ -29,9 +29,9 @@ const Resources = ({ data = [], onDelete = () => {} }) => {
           </Thead>
           <Tbody>
             {data?.length > 0 &&
-              data.map((resources = {}, resourceIndex) => {
+              data.map((resources = {}, id) => {
                 return (
-                  <Tr key={`resources-${resourceIndex}`}>
+                  <Tr key={`resources-${id}`}>
                     <Td>
                       {`${resources?.firstName}${
                         resources?.middleName ? ` ${resources.middleName} ` : ``
@@ -43,8 +43,8 @@ const Resources = ({ data = [], onDelete = () => {} }) => {
                         <Button
                           variant="outline"
                           colorScheme="red"
-                          size="m"
-                          onClick={() => onDelete(resourceIndex)}
+                          size="sm"
+                          onClick={() => onDelete(resources?.id)}
                         >
                           Delete
                         </Button>
