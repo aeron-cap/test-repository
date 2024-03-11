@@ -20,7 +20,7 @@ const initialData = {
   contactNumber: "",
 };
 
-const CompanyForms = ({ id = -1, onAdd = () => {}, onExit = () => {} }) => {
+const CompanyForms = ({ id = -1, onAdd, onExit }) => {
   const [formData, setFormData] = useState(initialData);
   const fetched = useRef(false);
 
@@ -56,7 +56,7 @@ const CompanyForms = ({ id = -1, onAdd = () => {}, onExit = () => {} }) => {
 
   return (
     <form onSubmit={handleAdd}>
-      <Stack>
+      <Stack w="container.md">
         <FormControl>
           <FormLabel>Name</FormLabel>
           <Input
@@ -109,14 +109,7 @@ const CompanyForms = ({ id = -1, onAdd = () => {}, onExit = () => {} }) => {
               Back
             </Button>
             <Button colorScheme="green" type="submit">
-              {id === -1 ? `Add` : `Update`} Company Details
-            </Button>
-            <Button
-              colorScheme="gray"
-              type="button"
-              onClick={() => setFormData(initialData)}
-            >
-              Clear
+              {id === "add" ? `Add` : `Update`} Company Details
             </Button>
           </ButtonGroup>
           <Spacer />
@@ -127,7 +120,7 @@ const CompanyForms = ({ id = -1, onAdd = () => {}, onExit = () => {} }) => {
 };
 
 CompanyForms.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onAdd: PropTypes.func,
   onExit: PropTypes.func,
 };
