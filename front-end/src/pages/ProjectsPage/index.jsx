@@ -1,66 +1,12 @@
 import { Stack, Center, Card, CardBody, Box, VStack } from "@chakra-ui/react";
 import Projects from "../../components/Projects/Projects";
 import { useEffect, useState, useRef } from "react";
-import ProjectForms from "../../forms/ProjectsForms";
 import Heading from "./Heading";
 import mockApi from "../../utils/mockApi";
 
 const ProjectsPage = () => {
-  const [isAdding, setIsAdding] = useState(false);
-  const [editId, setEditId] = useState(-1);
   const [projectsData, setProjectData] = useState([]);
   const fetched = useRef(false); //marker for obtained data
-
-  const handleAdd = (data = {}) => {
-    let method = "POST";
-    let endpoint = "/projects";
-    if (data?.id > -1) {
-      method = "PUT";
-      endpoint = `/projects/${data?.id}`;
-    }
-    const requestData = mockApi(method, endpoint, data);
-    const { status = false, data: newData = {} } = requestData; //request
-
-    if (status) {
-      const newProjectData = [...projectsData];
-      if (data?.id > -1) {
-        const index = newProjectData.findIndex((item) => item.id === data.id);
-        if (index !== -1) {
-          newProjectData.splice(index, 1, newData);
-        }
-      } else {
-        newProjectData.push(newData);
-      }
-      setProjectData(newProjectData);
-      setIsAdding(false);
-    }
-  };
-
-  const handleEditResource = (id) => {
-    setIsAdding(true);
-    setEditId(id);
-    console.log(id);
-  };
-
-  const handleDelete = (id) => {
-    const requestData = mockApi("DELETE", `/projects/${id}`);
-    const { status = false } = requestData;
-
-    if (status) {
-      const newData = [...projectsData];
-      const index = newData.findIndex((item) => item.id === id);
-      console.log(index);
-      if (index !== -1) {
-        newData.splice(index, 1);
-        setProjectData(newData);
-      }
-    }
-  };
-
-  const handleCancel = () => {
-    setIsAdding(false);
-    setEditId(-1);
-  };
 
   const loadData = () => {
     if (fetched.current) return;
@@ -79,31 +25,12 @@ const ProjectsPage = () => {
   return (
     <Center width="100%">
       <Stack>
-        <Heading isAdding={isAdding} toggle={() => setIsAdding(!isAdding)} />
-        <VStack>
-          <Center>
-            <Box direction="column" height="100vh" minW="container.md">
-              {!isAdding && (
-                <Projects
-                  data={projectsData}
-                  onDelete={handleDelete}
-                  onEdit={handleEditResource}
-                />
-              )}
-              {isAdding && (
-                <Card>
-                  <CardBody>
-                    <ProjectForms
-                      id={editId}
-                      onAdd={handleAdd}
-                      onExit={handleCancel}
-                    />
-                  </CardBody>
-                </Card>
-              )}
-            </Box>
-          </Center>
-        </VStack>
+        <Stack>
+          <Heading />
+          <Box direction="column" height="100vh">
+            <Projects data={projectsData} />
+          </Box>
+        </Stack>
       </Stack>
     </Center>
   );

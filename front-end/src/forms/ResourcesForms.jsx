@@ -25,18 +25,18 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
   const [formData, setFormData] = useState(initialData);
   const fetched = useRef(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => {
-      return { ...prevData, [name]: value };
-    });
-  };
-
   const handleAdd = (e) => {
     e.preventDefault();
     onAdd(formData);
     setFormData(initialData);
     onExit();
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      return { ...prevData, [name]: value };
+    });
   };
 
   const handleBack = () => {

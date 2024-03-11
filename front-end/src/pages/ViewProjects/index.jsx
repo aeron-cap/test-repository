@@ -1,41 +1,41 @@
 import { Box, Button, Stack, Center } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import ResourcesForms from "../../forms/ResourcesForms";
+import ProjectForms from "../../forms/ProjectsForms";
 import mockApi from "../../utils/mockApi";
-import Heading from "./Heading";
+import Heading from "../ViewProjects/Heading";
 
-const ViewResource = () => {
+const ViewProjects = () => {
   const { id = "add" } = useParams();
   const navigate = useNavigate();
 
   const handleAdd = (data) => {
     let method = "POST";
-    let endpoint = "/resources";
+    let endpoint = "/projects";
     if (data?.id > -1) {
       method = "PUT";
-      endpoint = `/resources/${data?.id}`;
+      endpoint = `/projects/${data?.id}`;
     }
     mockApi(method, endpoint, data);
   };
 
   const handleDelete = () => {
-    mockApi("DELETE", `/resources/${id}`);
-    navigate("/resources");
+    mockApi("DELETE", `/projects/${id}`);
+    navigate("/projects");
   };
 
   const handleCancel = () => {
-    navigate("/resources");
+    navigate("/projects");
   };
 
-  const isExistingResource = id == "add";
+  const isExistingProject = id == "add";
 
   return (
     <Center width="100%" height="100%">
       <Stack>
         <Heading />
         <Box bg="white" borderRadius="md" padding={5}>
-          <ResourcesForms id={id} onAdd={handleAdd} onExit={handleCancel} />
-          {isExistingResource || (
+          <ProjectForms id={id} onAdd={handleAdd} onExit={handleCancel} />
+          {isExistingProject || (
             <Button colorScheme="red" size="sm" onClick={handleDelete}>
               Delete
             </Button>
@@ -46,6 +46,6 @@ const ViewResource = () => {
   );
 };
 
-ViewResource.propTypes = {};
+ViewProjects.propTypes = {};
 
-export default ViewResource;
+export default ViewProjects;
