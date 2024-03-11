@@ -19,6 +19,7 @@ function App() {
             paddingTop="50px"
             fontFamily="Roboto, sans-serif"
             alignItems="flex-start"
+            minH="100vh"
           >
             <NavigationItem to="/"> Home </NavigationItem>
             <NavigationItem to="/resources"> Resources </NavigationItem>

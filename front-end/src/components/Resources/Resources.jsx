@@ -6,61 +6,44 @@ import {
   Th,
   Td,
   TableContainer,
-  Flex,
-  Button,
-  Center,
-  ButtonGroup,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 
-const Resources = ({ data = [], onDelete = () => {}, onEdit = () => {} }) => {
+const Resources = ({ data = [] }) => {
   return (
     <Fragment>
       <TableContainer w="container.md">
-        <Table bg="white" borderRadius="md">
+        <Table
+          bg="white"
+          borderRadius="md"
+          variant="striped"
+          colorScheme="teal"
+        >
           <Thead position="sticky">
             <Tr>
               <Th>Name</Th>
               <Th>Type</Th>
-              <Th isNumeric>
-                <Center>Actions</Center>
-              </Th>
             </Tr>
           </Thead>
           <Tbody>
             {data?.length > 0 &&
               data.map((resources = {}, id) => {
                 return (
-                  <Tr key={`resources-${id}`}>
+                  <LinkBox as={Tr} key={`resources-${id}`}>
                     <Td>
-                      {`${resources?.firstName}${
-                        resources?.middleName ? ` ${resources.middleName} ` : ``
-                      }${resources?.lastName}`}
+                      <LinkOverlay href={`/resources/${resources?.id}`}>
+                        {`${resources?.firstName}${
+                          resources?.middleName
+                            ? ` ${resources.middleName} `
+                            : ``
+                        }${resources?.lastName}`}
+                      </LinkOverlay>
                     </Td>
                     <Td>{resources?.type}</Td>
-                    <Td isNumeric>
-                      <Flex justifyContent="center" alignItems="center">
-                        <ButtonGroup>
-                          <Button
-                            colorScheme="green"
-                            size="sm"
-                            onClick={() => onEdit(resources?.id)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            variant="outline"
-                            colorScheme="red"
-                            size="sm"
-                            onClick={() => onDelete(resources?.id)}
-                          >
-                            Delete
-                          </Button>
-                        </ButtonGroup>
-                      </Flex>
-                    </Td>
-                  </Tr>
+                  </LinkBox>
                 );
               })}
           </Tbody>
