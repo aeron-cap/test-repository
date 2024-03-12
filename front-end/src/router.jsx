@@ -7,6 +7,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import CompaniesPage from "./pages/CompanyPage";
 import ViewResource from "./pages/ViewResource";
 import ViewProjects from "./pages/ViewProjects";
+import ViewCompany from "./pages/ViewCompany";
 
 const routes = [
   {
@@ -19,6 +20,7 @@ const routes = [
       { path: "projects", element: <ProjectsPage /> },
       { path: "projects/:id", element: <ViewProjects /> },
       { path: "companies", element: <CompaniesPage /> },
+      { path: "companies/:id", element: <ViewCompany /> },
       { path: "404", element: <ErrorPage /> },
     ],
   },
