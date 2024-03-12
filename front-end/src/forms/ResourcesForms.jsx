@@ -9,10 +9,12 @@ import {
   ButtonGroup,
   Center,
   Box,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import mockApi from "../utils/mockApi";
+import { validateResources } from "../utils/validationResource";
 
 const initialData = {
   firstName: "",
@@ -21,16 +23,10 @@ const initialData = {
   type: "",
 };
 
-const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
+const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState(initialData);
   const fetched = useRef(false);
-
-  const handleAdd = (e) => {
-    e.preventDefault();
-    onAdd(formData);
-    setFormData(initialData);
-    onExit();
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,15 +35,28 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
     });
   };
 
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const validator = validateResources(formData);
+    const { isValid = false, errors = {} } = validator;
+
+    if (isValid) {
+      onAdd(formData);
+      setErrors({});
+      setFormData(initialData);
+      onExit();
+    } else {
+      setErrors(errors);
+    }
+  };
+
   const handleBack = () => {
     setFormData(initialData);
     onExit();
   };
 
   useEffect(() => {
-    // console.log(id);
-    if (id === -1) return;
-    if (fetched.current) return;
+    if (id === -1 || fetched.current) return;
     const requestData = mockApi("GET", `/resources/${id}`);
     const { status = false, data = {} } = requestData;
     if (status) {
@@ -61,7 +70,7 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
       <Center>
         <Box w="container.md">
           <Stack>
-            <FormControl>
+            <FormControl isInvalid={errors?.firstName}>
               <FormLabel>First Name</FormLabel>
               <Input
                 type="text"
@@ -69,6 +78,7 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
                 value={formData.firstName}
                 onChange={handleChange}
               />
+              <FormErrorMessage>{errors?.firstName}</FormErrorMessage>
             </FormControl>
             <FormControl>
               <FormLabel>Middle Name</FormLabel>
