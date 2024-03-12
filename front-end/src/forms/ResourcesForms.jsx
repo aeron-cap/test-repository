@@ -74,7 +74,6 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
           <Stack>
             <FormControl isInvalid={errors?.firstName}>
               <FormLabel>
-                {" "}
                 <HStack>
                   <Text>First Name </Text>
                   <Text color="red">*</Text>

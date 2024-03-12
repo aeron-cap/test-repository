@@ -7,10 +7,13 @@ import {
   Button,
   Input,
   ButtonGroup,
+  FormErrorMessage,
+  Text,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import mockApi from "../utils/mockApi";
+import { validateCompany } from "../utils/validateCompany";
 
 const initialData = {
   name: "",
@@ -20,15 +23,23 @@ const initialData = {
   contactNumber: "",
 };
 
-const CompanyForms = ({ id = -1, onAdd, onExit }) => {
+const CompanyForms = ({ id = "add", onAdd, onExit }) => {
   const [formData, setFormData] = useState(initialData);
-  const fetched = useRef(false);
+  const [errors, setErrors] = useState({});
+  const fetched = useRef("add");
 
   const handleAdd = (e) => {
     e.preventDefault();
-    onAdd(formData);
-    setFormData(initialData);
-    onExit();
+    const validator = validateCompany(formData);
+    const { isValid = false, errors = {} } = validator;
+
+    if (isValid) {
+      onAdd(formData);
+      setErrors({});
+      onExit();
+    } else {
+      setErrors(errors);
+    }
   };
 
   const handleChange = (e) => {
@@ -45,11 +56,12 @@ const CompanyForms = ({ id = -1, onAdd, onExit }) => {
 
   useEffect(() => {
     // console.log(id);
-    if (id === -1 || fetched.current) return;
+    if (id === "add") return;
+    if (fetched.current === id) return;
     const requestData = mockApi("GET", `/companies/${id}`);
     const { status = false, data = {} } = requestData;
     if (status) {
-      fetched.current = true;
+      fetched.current = id;
       setFormData(data);
     }
   }, [id]);
@@ -57,7 +69,7 @@ const CompanyForms = ({ id = -1, onAdd, onExit }) => {
   return (
     <form onSubmit={handleAdd}>
       <Stack w="container.md">
-        <FormControl>
+        <FormControl isInvalid={errors?.name}>
           <FormLabel>Name</FormLabel>
           <Input
             type="text"
@@ -65,8 +77,9 @@ const CompanyForms = ({ id = -1, onAdd, onExit }) => {
             value={formData.name}
             onChange={handleChange}
           />
+          <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={errors?.contactPerson}>
           <FormLabel>Contact Person</FormLabel>
           <Input
             type="text"
@@ -74,8 +87,9 @@ const CompanyForms = ({ id = -1, onAdd, onExit }) => {
             value={formData.contactPerson}
             onChange={handleChange}
           />
+          <FormErrorMessage>{errors?.contactPerson}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={errors?.email}>
           <FormLabel>E Mail</FormLabel>
           <Input
             type="text"
@@ -83,8 +97,9 @@ const CompanyForms = ({ id = -1, onAdd, onExit }) => {
             value={formData.email}
             onChange={handleChange}
           />
+          <FormErrorMessage>{errors?.email}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={errors?.address}>
           <FormLabel>Address</FormLabel>
           <Input
             type="text"
@@ -92,8 +107,9 @@ const CompanyForms = ({ id = -1, onAdd, onExit }) => {
             value={formData.address}
             onChange={handleChange}
           />
+          <FormErrorMessage>{errors?.address}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={errors?.contactNumber}>
           <FormLabel>Contact Number</FormLabel>
           <Input
             type="text"
@@ -101,6 +117,7 @@ const CompanyForms = ({ id = -1, onAdd, onExit }) => {
             value={formData.contactNumber}
             onChange={handleChange}
           />
+          <FormErrorMessage>{errors?.contactNumber}</FormErrorMessage>
         </FormControl>
         <HStack>
           <Spacer />

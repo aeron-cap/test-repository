@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CompanyForms from "../../forms/CompanyForms";
 import mockApi from "../../utils/mockApi";
 import Heading from "./Heading";
+import Swal from "sweetalert2";
 
 const ViewCompany = () => {
   const { id = "add" } = useParams();
@@ -15,12 +16,40 @@ const ViewCompany = () => {
       method = "PUT";
       endpoint = `/companies/${data?.id}`;
     }
-    mockApi(method, endpoint, data);
+    const requestData = mockApi(method, endpoint, data);
+    const { status = false, data: newData = {} } = requestData;
+    if (status && !(data?.id > -1)) {
+      navigate(`/companies/${newData?.id}`);
+      Swal.fire({
+        title: "Company Added",
+        confirmButtonText: "Ok",
+        icon: "success",
+      });
+    } else {
+      Swal.fire({
+        title: "Company Updated",
+        confirmButtonText: "Ok",
+        icon: "success",
+      });
+    }
   };
 
   const handleDelete = () => {
-    mockApi("DELETE", `/companies/${id}`);
-    navigate("/companies");
+    Swal.fire({
+      title: "You are about to delete comapny information",
+      confirmButtonText: "Yes",
+      confirmButtonColor: "red",
+      showCancelButton: "true",
+      cancelButtonText: "No",
+      icon: "warning",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mockApi("DELETE", `/companies/${id}`);
+        navigate("/companies/");
+      } else {
+        navigate(`/companies/${id}`);
+      }
+    });
   };
 
   const handleCancel = () => {
