@@ -9,10 +9,12 @@ import {
   ButtonGroup,
   Center,
   Box,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import mockApi from "../utils/mockApi";
+import { validateResource } from "../utils/validateResource";
 
 const initialData = {
   firstName: "",
@@ -21,15 +23,23 @@ const initialData = {
   type: "",
 };
 
-const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
+const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
   const [formData, setFormData] = useState(initialData);
-  const fetched = useRef(false);
+  const [errors, setErrors] = useState({});
+  const fetched = useRef("add");
 
   const handleAdd = (e) => {
     e.preventDefault();
-    onAdd(formData);
-    setFormData(initialData);
-    onExit();
+    const validator = validateResource(formData);
+    const { isValid = false, errors = {} } = validator;
+
+    if (isValid) {
+      onAdd(formData);
+      setErrors({});
+      onExit();
+    } else {
+      setErrors(errors);
+    }
   };
 
   const handleChange = (e) => {
@@ -46,12 +56,12 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
 
   useEffect(() => {
     // console.log(id);
-    if (id === -1) return;
-    if (fetched.current) return;
+    if (id === "add") return;
+    if (fetched.current === id) return;
     const requestData = mockApi("GET", `/resources/${id}`);
     const { status = false, data = {} } = requestData;
     if (status) {
-      fetched.current = true;
+      fetched.current = id;
       setFormData(data);
     }
   }, [id]);
@@ -61,7 +71,7 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
       <Center>
         <Box w="container.md">
           <Stack>
-            <FormControl>
+            <FormControl isInvalid={errors?.firstName}>
               <FormLabel>First Name</FormLabel>
               <Input
                 type="text"
@@ -69,6 +79,7 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
                 value={formData.firstName}
                 onChange={handleChange}
               />
+              <FormErrorMessage>{errors?.firstName}</FormErrorMessage>
             </FormControl>
             <FormControl>
               <FormLabel>Middle Name</FormLabel>
@@ -79,7 +90,7 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
                 onChange={handleChange}
               />
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={errors?.lastName}>
               <FormLabel>Last Name</FormLabel>
               <Input
                 type="text"
@@ -87,15 +98,17 @@ const ResourcesForms = ({ id = -1, onAdd, onExit }) => {
                 value={formData.lastName}
                 onChange={handleChange}
               />
+              <FormErrorMessage>{errors?.lastName}</FormErrorMessage>
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={errors?.type}>
               <FormLabel>Type</FormLabel>
               <Input
                 type="text"
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-              />
+              />{" "}
+              <FormErrorMessage>{errors?.type}</FormErrorMessage>
             </FormControl>
             <HStack>
               <Spacer />
