@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ResourcesForms from "../../forms/ResourcesForms";
 import mockApi from "../../utils/mockApi";
 import Heading from "./Heading";
+import Swal from "sweetalert2";
 
 const ViewResource = () => {
   const { id = "add" } = useParams();
@@ -19,16 +20,36 @@ const ViewResource = () => {
     const { status = false, data: newData = {} } = requestData;
     if (status && !(data?.id > -1)) {
       navigate(`/resources/${newData?.id}`);
-      alert("New Resource added");
+      Swal.fire({
+        title: "Resource Added",
+        confirmButtonText: "Ok",
+        icon: "success",
+      });
     } else {
-      alert("Resource updated");
+      Swal.fire({
+        title: "Resource Updated",
+        confirmButtonText: "Ok",
+        icon: "success",
+      });
     }
   };
 
   const handleDelete = () => {
-    mockApi("DELETE", `/resources/${id}`);
-    navigate("/resources");
-    alert("Resource deleted");
+    Swal.fire({
+      title: "You are about to delete",
+      confirmButtonText: "Yes",
+      confirmButtonColor: "red",
+      showCancelButton: "true",
+      cancelButtonText: "No",
+      icon: "warning",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mockApi("DELETE", `/resources/${id}`);
+        navigate("/resources/");
+      } else {
+        navigate(`/resources/${id}`);
+      }
+    });
   };
 
   const handleCancel = () => {
