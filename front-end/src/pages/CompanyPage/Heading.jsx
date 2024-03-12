@@ -1,15 +1,16 @@
 import { Button, HStack, Heading, Spacer } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ isAdding = false, toggle }) => {
   return (
     <HStack paddingTop={10}>
       <Heading textAlign="center">Company</Heading>
       <Spacer />
-      <Button as={Link} to="/companies/add" colorScheme="green">
-        Add Resource
-      </Button>
+      {!isAdding && (
+        <Button colorScheme="green" onClick={toggle}>
+          Add Resource
+        </Button>
+      )}
     </HStack>
   );
 };
