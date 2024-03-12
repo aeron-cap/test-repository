@@ -7,10 +7,13 @@ import {
   Button,
   Input,
   ButtonGroup,
+  FormErrorMessage,
+  Text,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import mockApi from "../utils/mockApi";
+import { validateProject } from "../utils/validateProjects";
 
 const initialData = {
   name: "",
@@ -18,15 +21,23 @@ const initialData = {
   alias: "",
 };
 
-const ProjectForms = ({ id = -1, onAdd, onExit }) => {
+const ProjectForms = ({ id = "add", onAdd, onExit }) => {
   const [formData, setFormData] = useState(initialData);
-  const fetched = useRef(false);
+  const [errors, setErrors] = useState({});
+  const fetched = useRef("add");
 
   const handleAdd = (e) => {
     e.preventDefault();
-    onAdd(formData);
-    setFormData(initialData);
-    onExit();
+    const validator = validateProject(formData);
+    const { isValid = false, errors = {} } = validator;
+
+    if (isValid) {
+      onAdd(formData);
+      setErrors({});
+      onExit();
+    } else {
+      setErrors(errors);
+    }
   };
 
   const handleChange = (e) => {
@@ -43,11 +54,12 @@ const ProjectForms = ({ id = -1, onAdd, onExit }) => {
 
   useEffect(() => {
     // console.log(id);
-    if (id === -1 || fetched.current) return;
+    if (id === "add") return;
+    if (fetched.current === id) return;
     const requestData = mockApi("GET", `/projects/${id}`);
     const { status = false, data = {} } = requestData;
     if (status) {
-      fetched.current = true;
+      fetched.current = id;
       setFormData(data);
     }
   }, [id]);
@@ -55,14 +67,20 @@ const ProjectForms = ({ id = -1, onAdd, onExit }) => {
   return (
     <form onSubmit={handleAdd}>
       <Stack w="container.md">
-        <FormControl>
-          <FormLabel>Project Name</FormLabel>
+        <FormControl isInvalid={errors?.name}>
+          <FormLabel>
+            <HStack>
+              <Text>Project Name</Text>
+              <Text color="red">*</Text>
+            </HStack>
+          </FormLabel>
           <Input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
           />
+          <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
         <FormControl>
           <FormLabel>Alias</FormLabel>
@@ -73,14 +91,20 @@ const ProjectForms = ({ id = -1, onAdd, onExit }) => {
             onChange={handleChange}
           />
         </FormControl>
-        <FormControl>
-          <FormLabel>Description</FormLabel>
+        <FormControl isInvalid={errors?.description}>
+          <FormLabel>
+            <HStack>
+              <Text>Description</Text>
+              <Text color="red">*</Text>
+            </HStack>
+          </FormLabel>
           <Input
             type="text"
             name="description"
             value={formData.description}
             onChange={handleChange}
           />
+          <FormErrorMessage>{errors?.description}</FormErrorMessage>
         </FormControl>
         <HStack>
           <Spacer />

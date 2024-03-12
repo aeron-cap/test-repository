@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProjectForms from "../../forms/ProjectsForms";
 import mockApi from "../../utils/mockApi";
 import Heading from "../ViewProjects/Heading";
+import Swal from "sweetalert2";
 
 const ViewProjects = () => {
   const { id = "add" } = useParams();
@@ -15,12 +16,40 @@ const ViewProjects = () => {
       method = "PUT";
       endpoint = `/projects/${data?.id}`;
     }
-    mockApi(method, endpoint, data);
+    const requestData = mockApi(method, endpoint, data);
+    const { status = false, data: newData = {} } = requestData;
+    if (status && !(data?.id > -1)) {
+      navigate(`/projects/${newData?.id}`);
+      Swal.fire({
+        title: "Project Added",
+        confirmButtonText: "Ok",
+        icon: "success",
+      });
+    } else {
+      Swal.fire({
+        title: "Project Updated",
+        confirmButtonText: "Ok",
+        icon: "success",
+      });
+    }
   };
 
   const handleDelete = () => {
-    mockApi("DELETE", `/projects/${id}`);
-    navigate("/projects");
+    Swal.fire({
+      title: "You are about to delete",
+      confirmButtonText: "Yes",
+      confirmButtonColor: "red",
+      showCancelButton: "true",
+      cancelButtonText: "No",
+      icon: "warning",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mockApi("DELETE", `/projects/${id}`);
+        navigate("/projects/");
+      } else {
+        navigate(`/projects/${id}`);
+      }
+    });
   };
 
   const handleCancel = () => {

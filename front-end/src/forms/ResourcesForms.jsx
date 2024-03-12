@@ -10,6 +10,7 @@ import {
   Center,
   Box,
   FormErrorMessage,
+  Text,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
@@ -72,7 +73,13 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
         <Box w="container.md">
           <Stack>
             <FormControl isInvalid={errors?.firstName}>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>
+                {" "}
+                <HStack>
+                  <Text>First Name </Text>
+                  <Text color="red">*</Text>
+                </HStack>
+              </FormLabel>
               <Input
                 type="text"
                 name="firstName"
@@ -91,7 +98,12 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
               />
             </FormControl>
             <FormControl isInvalid={errors?.lastName}>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>
+                <HStack>
+                  <Text>Last Name </Text>
+                  <Text color="red">*</Text>
+                </HStack>
+              </FormLabel>
               <Input
                 type="text"
                 name="lastName"
@@ -101,7 +113,12 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
               <FormErrorMessage>{errors?.lastName}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={errors?.type}>
-              <FormLabel>Type</FormLabel>
+              <FormLabel>
+                <HStack>
+                  <Text>Type</Text>
+                  <Text color="red">*</Text>
+                </HStack>
+              </FormLabel>
               <Input
                 type="text"
                 name="type"
