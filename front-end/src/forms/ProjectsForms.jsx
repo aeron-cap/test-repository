@@ -54,7 +54,7 @@ const ProjectForms = ({ id = -1, onAdd, onExit }) => {
 
   return (
     <form onSubmit={handleAdd}>
-      <Stack w="container.md">
+      <Stack width="100%">
         <FormControl>
           <FormLabel>Project Name</FormLabel>
           <Input

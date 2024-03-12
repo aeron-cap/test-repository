@@ -11,32 +11,23 @@ import {
   Flex,
   Button,
   ButtonGroup,
-  LinkBox,
-  LinkOverlay,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-const Companies = ({ data = [] }) => {
+const Companies = ({ data = [], onDelete = () => {}, onEdit = () => {} }) => {
   return (
     <Fragment>
       <TableContainer minWidth="50vw" p={5}>
         <Table bg="white" borderRadius="md">
           <Thead>
             <Tr>
-              <Th color="teal" fontSize="lg">
-                Name
-              </Th>
-              <Th color="teal" fontSize="lg">
-                Contact Person
-              </Th>
-              <Th color="teal" fontSize="lg">
-                E mail
-              </Th>
-              <Th color="teal" fontSize="lg">
-                Address
-              </Th>
-              <Th color="teal" fontSize="lg">
-                Contact Number
+              <Th>Name</Th>
+              <Th>Contact Person</Th>
+              <Th>E mail</Th>
+              <Th>Address</Th>
+              <Th>Contact Number</Th>
+              <Th isNumeric>
+                <Center>Actions</Center>
               </Th>
             </Tr>
           </Thead>
@@ -44,15 +35,34 @@ const Companies = ({ data = [] }) => {
             {data?.length > 0 &&
               data.map((companies = {}, id) => {
                 return (
-                  <LinkBox as={Tr} key={`companies-${id}`}>
-                    <LinkOverlay href={`/companies/${companies?.id}`}>
-                      <Td>{companies?.name}</Td>
-                    </LinkOverlay>
+                  <Tr key={`company-${id}`}>
+                    <Td>{companies?.name}</Td>
                     <Td>{companies?.contactPerson}</Td>
                     <Td>{companies?.email}</Td>
                     <Td>{companies?.address}</Td>
                     <Td>{companies?.contactNumber}</Td>
-                  </LinkBox>
+                    <Td isNumeric>
+                      <Flex justifyContent="center" alignItems="center">
+                        <ButtonGroup>
+                          <Button
+                            colorScheme="green"
+                            size="sm"
+                            onClick={() => onEdit(companies?.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="outline"
+                            colorScheme="red"
+                            size="sm"
+                            onClick={() => onDelete(companies?.id)}
+                          >
+                            Delete
+                          </Button>
+                        </ButtonGroup>
+                      </Flex>
+                    </Td>
+                  </Tr>
                 );
               })}
           </Tbody>
