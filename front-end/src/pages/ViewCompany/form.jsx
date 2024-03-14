@@ -8,19 +8,28 @@ import {
   Input,
   Spacer,
   Stack,
+  Box,
 } from "@chakra-ui/react";
 import { useCompany } from "../../contexts/_useContexts";
 import { validateCompany } from "../../utils/validateCompany";
 import { useState } from "react";
 
 const Form = () => {
-  const { id, formData, setFormData, handleAddCompany, handleCancel } =
-    useCompany();
+  const {
+    id,
+    formData,
+    dispatch,
+    handleAddCompany,
+    handleCancel,
+    handleResetData,
+    isEditing,
+  } = useCompany();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    // setFormData((prevData) => ({ ...prevData, [name]: value }));
+    dispatch({ type: "ON_INPUTCHANGE", name, value });
   };
 
   const handleAdd = (e) => {
@@ -38,10 +47,18 @@ const Form = () => {
     handleCancel();
   };
 
+  const handleReset = () => {
+    handleResetData();
+  };
+
   return (
     <form onSubmit={handleAdd}>
       <Stack w="container.md">
-        <FormControl isInvalid={errors?.name}>
+        <FormControl
+          isRequired
+          isInvalid={errors?.name}
+          isReadOnly={!isEditing}
+        >
           <FormLabel>Name</FormLabel>
           <Input
             type="text"
@@ -51,7 +68,11 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={errors?.contactPerson}>
+        <FormControl
+          isRequired
+          isInvalid={errors?.contactPerson}
+          isReadOnly={!isEditing}
+        >
           <FormLabel>Contact Person</FormLabel>
           <Input
             type="text"
@@ -61,7 +82,11 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.contactPerson}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={errors?.email}>
+        <FormControl
+          isRequired
+          isInvalid={errors?.email}
+          isReadOnly={!isEditing}
+        >
           <FormLabel>E Mail</FormLabel>
           <Input
             type="text"
@@ -71,7 +96,11 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.email}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={errors?.address}>
+        <FormControl
+          isRequired
+          isInvalid={errors?.address}
+          isReadOnly={!isEditing}
+        >
           <FormLabel>Address</FormLabel>
           <Input
             type="text"
@@ -81,7 +110,11 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.address}</FormErrorMessage>
         </FormControl>
-        <FormControl isInvalid={errors?.contactNumber}>
+        <FormControl
+          isRequired
+          isInvalid={errors?.contactNumber}
+          isReadOnly={!isEditing}
+        >
           <FormLabel>Contact Number</FormLabel>
           <Input
             type="text"
@@ -91,17 +124,34 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.contactNumber}</FormErrorMessage>
         </FormControl>
-        <HStack>
-          <Spacer />
-          <ButtonGroup>
-            <Button colorScheme="gray" type="button" onClick={handleBack}>
-              Back
-            </Button>
-            <Button colorScheme="green" type="submit">
-              {id === "add" ? `Add` : `Update`} Company Details
-            </Button>
-          </ButtonGroup>
-          <Spacer />
+        <HStack justify="flex-end">
+          {!isEditing && (
+            <>
+              <Button colorScheme="gray" type="button" onClick={handleBack}>
+                Back
+              </Button>
+              <Button
+                colorScheme="gray"
+                type="button"
+                onClick={() => dispatch({ type: "SET_EDIT", isEditing: true })}
+              >
+                {id === "add" ? `Add` : `Update`} Company
+              </Button>
+            </>
+          )}
+          {isEditing && (
+            <>
+              <Button colorScheme="gray" type="button" onClick={handleReset}>
+                Reset
+              </Button>
+              <Button colorScheme="gray" type="button" onClick={handleBack}>
+                Back
+              </Button>
+              <Button colorScheme="green" type="submit">
+                {id === "add" ? `Add` : `Update`} Company
+              </Button>
+            </>
+          )}
         </HStack>
       </Stack>
     </form>
