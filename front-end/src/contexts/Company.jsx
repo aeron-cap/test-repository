@@ -5,11 +5,21 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const initialData = {
-  name: "",
-  contactPerson: "",
-  email: "",
-  address: "",
-  contactNumber: "",
+  isEditing: false,
+  data: {
+    name: "",
+    contactPerson: "",
+    email: "",
+    address: "",
+    contactNumber: "",
+  },
+  formData: {
+    name: "",
+    contactPerson: "",
+    email: "",
+    address: "",
+    contactNumber: "",
+  },
 };
 
 export const CompanyContext = createContext("default");
@@ -35,6 +45,7 @@ const CompanyProvider = ({ id = "add", children }) => {
         confirmButtonText: "Ok",
         icon: "success",
       });
+      navigate(`/companies/${newData?.id}`);
     } else {
       Swal.fire({
         title: "Company Updated",

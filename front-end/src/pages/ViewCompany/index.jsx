@@ -16,7 +16,9 @@ const ViewCompany = () => {
           <Box bg="white" borderRadius="md" padding={5}>
             <Form />
           </Box>
-          <Footer />
+          <Box borderRadius="md" padding={2} textAlign="right">
+            <Footer />
+          </Box>
         </Stack>
       </Center>
     </CompanyProvider>
