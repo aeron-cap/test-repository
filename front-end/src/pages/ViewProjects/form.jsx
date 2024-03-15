@@ -6,22 +6,23 @@ import {
   FormLabel,
   HStack,
   Input,
+  Spacer,
   Stack,
 } from "@chakra-ui/react";
-import { useCompany } from "../../contexts/_useContexts";
-import { validateCompany } from "../../utils/validateCompany";
 import { useState } from "react";
+import { validateProject } from "../../utils/validateProjects";
+import { useProject } from "../../contexts/_useContexts";
 
 const Form = () => {
   const {
     id,
     formData,
     dispatch,
-    handleAddCompany,
+    handleAddProject,
     handleCancel,
     handleResetData,
     isEditing,
-  } = useCompany();
+  } = useProject();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -32,9 +33,9 @@ const Form = () => {
 
   const handleAdd = (e) => {
     e.preventDefault();
-    const validator = validateCompany(formData);
+    const validator = validateProject(formData);
     if (validator.isValid) {
-      handleAddCompany(formData);
+      handleAddProject(formData);
       setErrors({});
     } else {
       setErrors(validator.errors);
@@ -57,7 +58,12 @@ const Form = () => {
           isInvalid={errors?.name}
           isReadOnly={!isEditing}
         >
-          <FormLabel>Name</FormLabel>
+          <FormLabel>
+            <HStack>
+              <Text>Project Name</Text>
+              <Text color="red">*</Text>
+            </HStack>
+          </FormLabel>
           <Input
             type="text"
             name="name"
@@ -66,61 +72,33 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isInvalid={errors?.contactPerson}
-          isReadOnly={!isEditing}
-        >
-          <FormLabel>Contact Person</FormLabel>
+        <FormControl>
+          <FormLabel>Alias</FormLabel>
           <Input
             type="text"
-            name="contactPerson"
-            value={formData.contactPerson}
+            name="alias"
+            value={formData.alias}
             onChange={handleChange}
           />
-          <FormErrorMessage>{errors?.contactPerson}</FormErrorMessage>
         </FormControl>
         <FormControl
           isRequired
-          isInvalid={errors?.email}
+          isInvalid={errors?.description}
           isReadOnly={!isEditing}
         >
-          <FormLabel>E Mail</FormLabel>
+          <FormLabel>
+            <HStack>
+              <Text>Description</Text>
+              <Text color="red">*</Text>
+            </HStack>
+          </FormLabel>
           <Input
             type="text"
-            name="email"
-            value={formData.email}
+            name="description"
+            value={formData.description}
             onChange={handleChange}
           />
-          <FormErrorMessage>{errors?.email}</FormErrorMessage>
-        </FormControl>
-        <FormControl
-          isRequired
-          isInvalid={errors?.address}
-          isReadOnly={!isEditing}
-        >
-          <FormLabel>Address</FormLabel>
-          <Input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-          />
-          <FormErrorMessage>{errors?.address}</FormErrorMessage>
-        </FormControl>
-        <FormControl
-          isRequired
-          isInvalid={errors?.contactNumber}
-          isReadOnly={!isEditing}
-        >
-          <FormLabel>Contact Number</FormLabel>
-          <Input
-            type="text"
-            name="contactNumber"
-            value={formData.contactNumber}
-            onChange={handleChange}
-          />
-          <FormErrorMessage>{errors?.contactNumber}</FormErrorMessage>
+          <FormErrorMessage>{errors?.description}</FormErrorMessage>
         </FormControl>
         <HStack justify="flex-end">
           {!isEditing && (
@@ -133,7 +111,7 @@ const Form = () => {
                 type="button"
                 onClick={() => dispatch({ type: "SET_EDIT", isEditing: true })}
               >
-                {id === "add" ? `Add` : `Update`} Company
+                {id === "add" ? `Add` : `Update`} Project
               </Button>
             </>
           )}
@@ -146,7 +124,7 @@ const Form = () => {
                 Back
               </Button>
               <Button colorScheme="green" type="submit">
-                {id === "add" ? `Add` : `Update`} Company
+                {id === "add" ? `Add` : `Update`} Project
               </Button>
             </>
           )}

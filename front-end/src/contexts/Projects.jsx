@@ -8,17 +8,13 @@ const initialData = {
   isEditing: false,
   data: {
     name: "",
-    contactPerson: "",
-    email: "",
-    address: "",
-    contactNumber: "",
+    description: "",
+    alias: "",
   },
   formData: {
     name: "",
-    contactPerson: "",
-    email: "",
-    address: "",
-    contactNumber: "",
+    description: "",
+    alias: "",
   },
 };
 
@@ -42,33 +38,33 @@ const reducer = (state, action) => {
   }
 };
 
-export const CompanyContext = createContext("default");
+export const ProjectContext = createContext("default");
 
-const CompanyProvider = ({ id = "add", children }) => {
+const ProjectProvider = ({ id = "add", children }) => {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialData);
   const fetched = useRef(-1);
 
-  const handleAddCompany = (data) => {
+  const handleAddProject = (data) => {
     let method = "POST";
-    let endpoint = "/companies";
+    let endpoint = "/projects";
     if (data?.id > -1) {
       method = "PUT";
-      endpoint = `/companies/${data?.id}`;
+      endpoint = `/projects/${data?.id}`;
     }
     const requestData = mockApi(method, endpoint, data);
     const { status = false, data: newData = null } = requestData;
     if (status && !(data?.id > -1)) {
-      navigate(`/companies/${newData?.id}`);
+      navigate(`/projects/${newData?.id}`);
       Swal.fire({
-        title: "Company Added",
+        title: "Project Added",
         confirmButtonText: "Ok",
         icon: "success",
       });
-      navigate(`/companies/${newData?.id}`);
+      navigate(`/projects/${newData?.id}`);
     } else {
       Swal.fire({
-        title: "Company Updated",
+        title: "Project Updated",
         confirmButtonText: "Ok",
         icon: "success",
       });
@@ -77,9 +73,9 @@ const CompanyProvider = ({ id = "add", children }) => {
     dispatch({ type: "SET_EDIT", isEditing: false });
   };
 
-  const handleDeleteCompany = () => {
+  const handleDeleteProject = () => {
     Swal.fire({
-      title: "You are about to delete comapny information",
+      title: "You are about to delete project information",
       confirmButtonText: "Yes",
       confirmButtonColor: "red",
       showCancelButton: "true",
@@ -87,17 +83,17 @@ const CompanyProvider = ({ id = "add", children }) => {
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {
-        mockApi("DELETE", `/companies/${id}`);
-        navigate("/companies/");
+        mockApi("DELETE", `/projects/${id}`);
+        navigate("/projects/");
       } else {
-        navigate(`/companies/${id}`);
+        navigate(`/projects/${id}`);
       }
     });
   };
 
   const handleCancel = () => {
     dispatch({ type: "SET_EDIT", isEditing: false });
-    navigate("/companies");
+    navigate("/projects");
   };
 
   const handleResetData = () => {
@@ -110,7 +106,7 @@ const CompanyProvider = ({ id = "add", children }) => {
       return;
     }
     if (fetched.current === id) return;
-    const requestData = mockApi("GET", `/companies/${id}`);
+    const requestData = mockApi("GET", `/projects/${id}`);
     const { status = false, data = {} } = requestData;
     if (status) {
       fetched.current = id;
@@ -119,11 +115,11 @@ const CompanyProvider = ({ id = "add", children }) => {
   }, [id]);
 
   return (
-    <CompanyContext.Provider
+    <ProjectContext.Provider
       value={{
         id,
-        handleAddCompany,
-        handleDeleteCompany,
+        handleAddProject,
+        handleDeleteProject,
         handleCancel,
         handleResetData,
         ...state,
@@ -131,13 +127,13 @@ const CompanyProvider = ({ id = "add", children }) => {
       }}
     >
       {children}
-    </CompanyContext.Provider>
+    </ProjectContext.Provider>
   );
 };
 
-CompanyProvider.propTypes = {
+ProjectProvider.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   children: PropTypes.any,
 };
 
-export default CompanyProvider;
+export default ProjectProvider;

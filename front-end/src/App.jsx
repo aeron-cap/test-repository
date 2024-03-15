@@ -1,4 +1,4 @@
-import { ChakraProvider, Flex, Box, VStack } from "@chakra-ui/react";
+import { ChakraProvider, Stack, Grid, GridItem } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import theme from "./theme";
 import NavigationItem from "./components/Nav-Highlight";
@@ -6,30 +6,27 @@ import NavigationItem from "./components/Nav-Highlight";
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Box>
-        <Flex>
-          <VStack
-            minW="10vw"
-            fontSize="20px"
-            fontWeight="bold"
-            spacing="24px"
-            bg="white"
-            boxShadow="2px 0 4px rgba(0, 0, 0, 0.3)"
-            padding="20px"
-            paddingTop="50px"
-            fontFamily="Roboto, sans-serif"
-            alignItems="flex-start"
-            minH="100vh"
-          >
+      <Grid
+        w="full"
+        templateAreas={{
+          base: `"sidenav" "content"`,
+          md: `'sidenav contents'`,
+        }}
+        gridTemplateColumns={[`1fr`, `1fr`, `"20px 1fr"`]}
+      >
+        <GridItem area="sidenav">
+          <Stack>
             <NavigationItem to="/"> Home </NavigationItem>
             <NavigationItem to="/resources"> Resources </NavigationItem>
             <NavigationItem to="/projects"> Projects </NavigationItem>
             <NavigationItem to="/companies"> Companies </NavigationItem>
             <NavigationItem to="/requests"> Requests </NavigationItem>
-          </VStack>
+          </Stack>
+        </GridItem>
+        <GridItem area="content">
           <Outlet />
-        </Flex>
-      </Box>
+        </GridItem>
+      </Grid>
     </ChakraProvider>
   );
 }
