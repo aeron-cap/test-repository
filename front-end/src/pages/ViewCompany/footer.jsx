@@ -8,9 +8,9 @@ const Footer = () => {
 
   return (
     <>
-      <Box padding={3}>
+      <Box>
         {id > -1 && (
-          <Button colorScheme="red" size="md" onClick={handleDeleteCompany}>
+          <Button colorScheme="red" size="sm" onClick={handleDeleteCompany}>
             Delete
           </Button>
         )}

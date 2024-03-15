@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import mockApi from "../utils/mockApi";
 import { useNavigate } from "react-router-dom";
@@ -22,35 +22,12 @@ const initialData = {
   },
 };
 
-const reducer = (state, action) => {
-  const { type, ...payload } = action;
-  switch (type) {
-    case "FETCHED":
-      return { ...state, formData: payload.data, data: payload.data };
-    case "RESET_DATA":
-      return { ...state, formData: state.data };
-    case "SET_EDIT": {
-      return { ...state, isEditing: payload.isEditing };
-    }
-
-    case "ON_INPUTCHANGE":
-      return {
-        ...state,
-        formData: { ...state.formData, [payload.name]: payload.value },
-      };
-
-    default:
-      return state;
-  }
-};
-
 export const CompanyContext = createContext("default");
 
 const CompanyProvider = ({ id = "add", children }) => {
   const navigate = useNavigate();
-  // const [formData, setFormData] = useState(initialData);
-  const [state, dispatch] = useReducer(reducer, initialData);
-  const fetched = useRef(-1);
+  const [formData, setFormData] = useState(initialData);
+  const fetched = useRef("add");
 
   const handleAddCompany = (data) => {
     let method = "POST";
@@ -75,9 +52,7 @@ const CompanyProvider = ({ id = "add", children }) => {
         confirmButtonText: "Ok",
         icon: "success",
       });
-      dispatch({ type: "FETCHED", data: newData });
     }
-    dispatch({ type: "SET_EDIT", isEditing: false });
   };
 
   const handleDeleteCompany = () => {
@@ -99,27 +74,18 @@ const CompanyProvider = ({ id = "add", children }) => {
   };
 
   const handleCancel = () => {
-    dispatch({ type: "SET_EDIT", isEditing: false });
     navigate("/companies");
-  };
-
-  const handleResetData = () => {
-    dispatch({ type: "RESET_DATA", isEditing: false });
   };
 
   useEffect(() => {
     // console.log(id);
-    if (id === "add") {
-      dispatch({ type: "SET_EDIT", isEditing: true });
-      return;
-    }
+    if (id === "add") return;
     if (fetched.current === id) return;
     const requestData = mockApi("GET", `/companies/${id}`);
     const { status = false, data = {} } = requestData;
     if (status) {
       fetched.current = id;
-      // setFormData(data);
-      dispatch({ type: "FETCHED", data });
+      setFormData(data);
     }
   }, [id]);
 
@@ -130,9 +96,8 @@ const CompanyProvider = ({ id = "add", children }) => {
         handleAddCompany,
         handleDeleteCompany,
         handleCancel,
-        handleResetData,
-        ...state,
-        dispatch,
+        formData,
+        setFormData,
       }}
     >
       {children}
