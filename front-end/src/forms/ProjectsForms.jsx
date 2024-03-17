@@ -66,6 +66,7 @@ const ProjectForms = ({ id = "add", onAdd, onExit }) => {
 
   return (
     <form onSubmit={handleAdd}>
+<<<<<<< HEAD
       <Stack w="container.md">
         <FormControl isInvalid={errors?.name}>
           <FormLabel>
@@ -74,6 +75,11 @@ const ProjectForms = ({ id = "add", onAdd, onExit }) => {
               <Text color="red">*</Text>
             </HStack>
           </FormLabel>
+=======
+      <Stack width="100%">
+        <FormControl>
+          <FormLabel>Project Name</FormLabel>
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
           <Input
             type="text"
             name="name"

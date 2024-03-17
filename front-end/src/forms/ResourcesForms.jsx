@@ -10,12 +10,19 @@ import {
   Center,
   Box,
   FormErrorMessage,
+<<<<<<< HEAD
   Text,
+=======
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import mockApi from "../utils/mockApi";
+<<<<<<< HEAD
 import { validateResource } from "../utils/validateResource";
+=======
+import { validateResources } from "../utils/validationResource";
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
 
 const initialData = {
   firstName: "",
@@ -25,10 +32,15 @@ const initialData = {
 };
 
 const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
+<<<<<<< HEAD
+=======
+  const [errors, setErrors] = useState({});
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
   const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState({});
   const fetched = useRef("add");
 
+<<<<<<< HEAD
   const handleAdd = (e) => {
     e.preventDefault();
     const validator = validateResource(formData);
@@ -43,11 +55,28 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
     }
   };
 
+=======
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       return { ...prevData, [name]: value };
     });
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const validator = validateResources(formData);
+    const { isValid = false, errors = {} } = validator;
+
+    if (isValid) {
+      onAdd(formData);
+      setErrors({});
+      setFormData(initialData);
+      onExit();
+    } else {
+      setErrors(errors);
+    }
   };
 
   const handleBack = () => {
@@ -56,9 +85,13 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     // console.log(id);
     if (id === "add") return;
     if (fetched.current === id) return;
+=======
+    if (id === -1 || fetched.current) return;
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
     const requestData = mockApi("GET", `/resources/${id}`);
     const { status = false, data = {} } = requestData;
     if (status) {
@@ -73,12 +106,16 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
         <Box w="container.md">
           <Stack>
             <FormControl isInvalid={errors?.firstName}>
+<<<<<<< HEAD
               <FormLabel>
                 <HStack>
                   <Text>First Name </Text>
                   <Text color="red">*</Text>
                 </HStack>
               </FormLabel>
+=======
+              <FormLabel>First Name</FormLabel>
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
               <Input
                 type="text"
                 name="firstName"

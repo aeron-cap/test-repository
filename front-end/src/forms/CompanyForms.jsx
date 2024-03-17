@@ -23,7 +23,11 @@ const initialData = {
   contactNumber: "",
 };
 
+<<<<<<< HEAD
 const CompanyForms = ({ id = "add", onAdd, onExit }) => {
+=======
+const CompanyForms = ({ id = -1, onAdd = () => {}, onExit = () => {} }) => {
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
   const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState({});
   const fetched = useRef("add");
@@ -68,8 +72,13 @@ const CompanyForms = ({ id = "add", onAdd, onExit }) => {
 
   return (
     <form onSubmit={handleAdd}>
+<<<<<<< HEAD
       <Stack w="container.md">
         <FormControl isInvalid={errors?.name}>
+=======
+      <Stack>
+        <FormControl>
+>>>>>>> 0c114ca79a74e41380bde73ba15ce6b5f01a8ce2
           <FormLabel>Name</FormLabel>
           <Input
             type="text"
@@ -126,7 +135,14 @@ const CompanyForms = ({ id = "add", onAdd, onExit }) => {
               Back
             </Button>
             <Button colorScheme="green" type="submit">
-              {id === "add" ? `Add` : `Update`} Company Details
+              {id === -1 ? `Add` : `Update`} Company Details
+            </Button>
+            <Button
+              colorScheme="gray"
+              type="button"
+              onClick={() => setFormData(initialData)}
+            >
+              Clear
             </Button>
           </ButtonGroup>
           <Spacer />
@@ -137,7 +153,7 @@ const CompanyForms = ({ id = "add", onAdd, onExit }) => {
 };
 
 CompanyForms.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  id: PropTypes.number,
   onAdd: PropTypes.func,
   onExit: PropTypes.func,
 };
