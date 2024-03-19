@@ -129,10 +129,19 @@ const ResourcesForms = ({ id = "add", onAdd, onExit }) => {
             <HStack>
               <Spacer />
               <ButtonGroup>
-                <Button colorScheme="gray" type="button" onClick={handleBack}>
+                <Button
+                  data-test-id="resource-form-cancel"
+                  colorScheme="gray"
+                  type="button"
+                  onClick={handleBack}
+                >
                   Back
                 </Button>
-                <Button colorScheme="green" type="submit">
+                <Button
+                  data-test-id="resource-form-submit"
+                  colorScheme="green"
+                  type="submit"
+                >
                   {id === "add" ? `Add` : `Update`} Resource
                 </Button>
               </ButtonGroup>

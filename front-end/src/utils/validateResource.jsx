@@ -11,15 +11,9 @@ const validateResource = (data) => {
     retData.errors.lastName = "Last Name is Required";
   }
 
-  if (data?.type?.length < 1) {
+  if (!["DEV", "QA", "PM"].includes(data?.type)) {
     retData.isValid = false;
-    retData.errors.type = "Resource Type is Required";
-  } else {
-    if (!["DEV", "QA", "PM"].includes(data?.type)) {
-      retData.isValid = false;
-      retData.errors.type =
-        "Please select a valid Resource Type (PM, QA, or DEV).";
-    }
+    retData.errors.type = "Type is required.";
   }
 
   return retData;

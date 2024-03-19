@@ -3,18 +3,22 @@ import {
   FormLabel,
   HStack,
   Stack,
-  Spacer,
   Button,
   Input,
-  ButtonGroup,
   Center,
   Box,
   FormErrorMessage,
-  Text,
+  Select,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useResource } from "../../contexts/_useContexts";
 import { validateResource } from "../../utils/validateResource";
+
+const typeOptions = [
+  { label: "Project Manager", value: "PM" },
+  { label: "Quality Assurance", value: "QA" },
+  { label: "Developer", value: "DEV" },
+];
 
 const Form = () => {
   const {
@@ -54,14 +58,14 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleAdd}>
+    <form onSubmit={handleAdd} data-test-id="resource-form">
       <Center>
         <Box w="container.md">
           <Stack>
             <FormControl
-              isRequired
               isReadOnly={!isEditing}
               isInvalid={errors?.firstName}
+              //isRequired
             >
               <FormLabel>First Name</FormLabel>
               <Input
@@ -72,7 +76,7 @@ const Form = () => {
               />
               <FormErrorMessage>{errors?.firstName}</FormErrorMessage>
             </FormControl>
-            <FormControl isRequired isReadOnly={!isEditing}>
+            <FormControl isReadOnly={!isEditing}>
               <FormLabel>Middle Name</FormLabel>
               <Input
                 type="text"
@@ -81,11 +85,7 @@ const Form = () => {
                 onChange={handleChange}
               />
             </FormControl>
-            <FormControl
-              isRequired
-              isReadOnly={!isEditing}
-              isInvalid={errors?.lastName}
-            >
+            <FormControl isReadOnly={!isEditing} isInvalid={errors?.lastName}>
               <FormLabel>Last Name</FormLabel>
               <Input
                 type="text"
@@ -95,27 +95,36 @@ const Form = () => {
               />
               <FormErrorMessage>{errors?.lastName}</FormErrorMessage>
             </FormControl>
-            <FormControl
-              isRequired
-              isReadOnly={!isEditing}
-              isInvalid={errors?.type}
-            >
+            <FormControl isInvalid={errors?.type} isReadOnly={!isEditing}>
               <FormLabel>Type</FormLabel>
-              <Input
-                type="text"
+              <Select
                 name="type"
+                id="select-resource-type"
+                placeholder="Select Resource Type"
                 value={formData.type}
                 onChange={handleChange}
-              />
+              >
+                {typeOptions.map((type, typeIndex) => (
+                  <option key={`typeOption-${typeIndex}`} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </Select>
               <FormErrorMessage>{errors?.type}</FormErrorMessage>
             </FormControl>
             <HStack justify="flex-end">
               {!isEditing && (
                 <>
-                  <Button colorScheme="gray" type="button" onClick={handleBack}>
+                  <Button
+                    data-test-id="resource-form-cancel"
+                    colorScheme="gray"
+                    type="button"
+                    onClick={handleBack}
+                  >
                     Back
                   </Button>
                   <Button
+                    data-test-id="resource-form-submit"
                     colorScheme="gray"
                     type="button"
                     onClick={() =>
@@ -135,10 +144,19 @@ const Form = () => {
                   >
                     Reset
                   </Button>
-                  <Button colorScheme="gray" type="button" onClick={handleBack}>
+                  <Button
+                    data-test-id="resource-form-cancel"
+                    colorScheme="gray"
+                    type="button"
+                    onClick={handleBack}
+                  >
                     Back
                   </Button>
-                  <Button colorScheme="green" type="submit">
+                  <Button
+                    data-test-id="resource-form-submit"
+                    colorScheme="green"
+                    type="submit"
+                  >
                     {id === "add" ? `Add` : `Update`} Resource
                   </Button>
                 </>

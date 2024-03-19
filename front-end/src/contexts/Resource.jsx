@@ -62,7 +62,7 @@ const ResourceProvider = ({ id = "add", children }) => {
     if (status && !(data?.id > -1)) {
       navigate(`/resources/${newData?.id}`);
       Swal.fire({
-        title: "Resource Added",
+        title: "Resource was added successfully!",
         confirmButtonText: "Ok",
         icon: "success",
       });
