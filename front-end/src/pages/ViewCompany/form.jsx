@@ -52,13 +52,9 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleAdd}>
+    <form onSubmit={handleAdd} data-test-id="company-form">
       <Stack w="container.md">
-        <FormControl
-          isRequired
-          isReadOnly={!isEditing}
-          isInvalid={errors?.name}
-        >
+        <FormControl isReadOnly={!isEditing} isInvalid={errors?.name}>
           <FormLabel>Name</FormLabel>
           <Input
             type="text"
@@ -68,11 +64,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isInvalid={errors?.contactPerson}
-          isReadOnly={!isEditing}
-        >
+        <FormControl isInvalid={errors?.contactPerson} isReadOnly={!isEditing}>
           <FormLabel>Contact Person</FormLabel>
           <Input
             type="text"
@@ -82,11 +74,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.contactPerson}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isInvalid={errors?.email}
-          isReadOnly={!isEditing}
-        >
+        <FormControl isInvalid={errors?.email} isReadOnly={!isEditing}>
           <FormLabel>E Mail</FormLabel>
           <Input
             type="text"
@@ -96,11 +84,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.email}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isInvalid={errors?.address}
-          isReadOnly={!isEditing}
-        >
+        <FormControl isInvalid={errors?.address} isReadOnly={!isEditing}>
           <FormLabel>Address</FormLabel>
           <Input
             type="text"
@@ -110,11 +94,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.address}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isInvalid={errors?.contactNumber}
-          isReadOnly={!isEditing}
-        >
+        <FormControl isInvalid={errors?.contactNumber} isReadOnly={!isEditing}>
           <FormLabel>Contact Number</FormLabel>
           <Input
             type="text"
@@ -127,10 +107,16 @@ const Form = () => {
         <HStack justify="flex-end">
           {!isEditing && (
             <>
-              <Button colorScheme="gray" type="button" onClick={handleBack}>
+              <Button
+                data-test-id="company-form-cancel"
+                colorScheme="gray"
+                type="button"
+                onClick={handleBack}
+              >
                 Back
               </Button>
               <Button
+                data-test-id="company-form-submit"
                 colorScheme="gray"
                 type="button"
                 onClick={() => dispatch({ type: "SET_EDIT", isEditing: true })}
@@ -144,10 +130,19 @@ const Form = () => {
               <Button colorScheme="gray" type="button" onClick={handleReset}>
                 Reset
               </Button>
-              <Button colorScheme="gray" type="button" onClick={handleBack}>
+              <Button
+                data-test-id="company-form-cancel"
+                colorScheme="gray"
+                type="button"
+                onClick={handleBack}
+              >
                 Back
               </Button>
-              <Button colorScheme="green" type="submit">
+              <Button
+                data-test-id="company-form-submit"
+                colorScheme="green"
+                type="submit"
+              >
                 {id === "add" ? `Add` : `Update`} Company
               </Button>
             </>

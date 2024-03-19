@@ -64,14 +64,14 @@ const CompanyProvider = ({ id = "add", children }) => {
     if (status && !(data?.id > -1)) {
       navigate(`/companies/${newData?.id}`);
       Swal.fire({
-        title: "Company Added",
+        title: "Company was added successfully!",
         confirmButtonText: "Ok",
         icon: "success",
       });
       navigate(`/companies/${newData?.id}`);
     } else {
       Swal.fire({
-        title: "Company Updated",
+        title: "Update Company",
         confirmButtonText: "Ok",
         icon: "success",
       });
