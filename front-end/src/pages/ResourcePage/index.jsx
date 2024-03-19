@@ -1,4 +1,4 @@
-import { Stack, Center, Box } from "@chakra-ui/react";
+import { Stack, Center, Box, HStack } from "@chakra-ui/react";
 import Resources from "../../components/Resources/Resources";
 import { useEffect, useState, useRef } from "react";
 import Heading from "./Heading";
@@ -23,14 +23,12 @@ const ResourcesPage = () => {
   }, []);
 
   return (
-    <Center width="100%">
-      <Stack>
-        <Heading />
-        <Box direction="column" height="100vh">
-          <Resources data={resourcesData} />
-        </Box>
-      </Stack>
-    </Center>
+    <Stack maxW="container.md" mx="auto">
+      <Heading />
+      <HStack>
+        <Resources data={resourcesData} />
+      </HStack>
+    </Stack>
   );
 };
 

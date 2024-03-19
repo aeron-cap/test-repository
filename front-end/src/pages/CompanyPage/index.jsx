@@ -1,4 +1,4 @@
-import { Stack, Center, Card, CardBody, Box } from "@chakra-ui/react";
+import { Stack, HStack, Card, CardBody, Box } from "@chakra-ui/react";
 import Companies from "../../components/Companies/Companies";
 import { useEffect, useState, useRef } from "react";
 import Heading from "./Heading";
@@ -23,14 +23,12 @@ const CompaniesPage = () => {
   }, []);
 
   return (
-    <Center width="100%">
-      <Stack>
-        <Heading />
-        <Box direction="column" height="100vh">
-          <Companies data={companyData} />
-        </Box>
-      </Stack>
-    </Center>
+    <Stack maxW="container.md" mx="auto">
+      <Heading />
+      <HStack>
+        <Companies data={companyData} />
+      </HStack>
+    </Stack>
   );
 };
 

@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 const Companies = ({ data = [] }) => {
   return (
     <Fragment>
-      <TableContainer minWidth="50vw" p={5}>
+      <TableContainer p={5}>
         <Table bg="white" borderRadius="md">
           <Thead>
             <Tr>
