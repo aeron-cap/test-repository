@@ -65,7 +65,7 @@ const ProjectForms = ({ id = "add", onAdd, onExit }) => {
   }, [id]);
 
   return (
-    <form onSubmit={handleAdd}>
+    <form onSubmit={handleAdd} data-test-id="resource-form">
       <Stack w="container.md">
         <FormControl isInvalid={errors?.name}>
           <FormLabel>

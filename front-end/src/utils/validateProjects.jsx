@@ -8,7 +8,7 @@ const validateProject = (data) => {
 
   if (data?.description?.length < 1) {
     retData.isValid = false;
-    retData.errors.description = "Desciption is Required";
+    retData.errors.description = "Description is required.";
   }
 
   return retData;

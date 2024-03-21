@@ -7,7 +7,12 @@ const Header = () => {
     <HStack paddingTop={10}>
       <Heading textAlign="center">Projects</Heading>
       <Spacer />
-      <Button as={Link} to="/projects/add" colorScheme="green">
+      <Button
+        data-test-id="add-projects"
+        as={Link}
+        to="/projects/add"
+        colorScheme="green"
+      >
         Add Project
       </Button>
     </HStack>

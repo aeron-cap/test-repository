@@ -50,13 +50,9 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleAdd}>
+    <form onSubmit={handleAdd} data-test-id="projects-form">
       <Stack w="container.md">
-        <FormControl
-          isRequired
-          isReadOnly={!isEditing}
-          isInvalid={errors?.name}
-        >
+        <FormControl isReadOnly={!isEditing} isInvalid={errors?.name}>
           <FormLabel>Project Name</FormLabel>
           <Input
             type="text"
@@ -66,7 +62,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl isRequired isReadOnly={!isEditing}>
+        <FormControl isReadOnly={!isEditing}>
           <FormLabel>Alias</FormLabel>
           <Input
             type="text"
@@ -75,11 +71,7 @@ const Form = () => {
             onChange={handleChange}
           />
         </FormControl>
-        <FormControl
-          isRequired
-          isReadOnly={!isEditing}
-          isInvalid={errors?.description}
-        >
+        <FormControl isReadOnly={!isEditing} isInvalid={errors?.description}>
           <FormLabel>Description</FormLabel>
           <Input
             type="text"
@@ -92,10 +84,16 @@ const Form = () => {
         <HStack justify="flex-end">
           {!isEditing && (
             <>
-              <Button colorScheme="gray" type="button" onClick={handleBack}>
+              <Button
+                data-test-id="projects-form-cancel"
+                colorScheme="gray"
+                type="button"
+                onClick={handleBack}
+              >
                 Back
               </Button>
               <Button
+                data-test-id="projects-form-submit"
                 colorScheme="gray"
                 type="button"
                 onClick={() => dispatch({ type: "SET_EDIT", isEditing: true })}
@@ -109,10 +107,19 @@ const Form = () => {
               <Button colorScheme="gray" type="button" onClick={handleReset}>
                 Reset
               </Button>
-              <Button colorScheme="gray" type="button" onClick={handleBack}>
+              <Button
+                data-test-id="projects-form-cancel"
+                colorScheme="gray"
+                type="button"
+                onClick={handleBack}
+              >
                 Back
               </Button>
-              <Button colorScheme="green" type="submit">
+              <Button
+                data-test-id="projects-form-submit"
+                colorScheme="green"
+                type="submit"
+              >
                 {id === "add" ? `Add` : `Update`} Project
               </Button>
             </>
