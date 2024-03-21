@@ -10,33 +10,35 @@ import {
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 
-const Projects = ({ data = [] }) => {
+const Requests = ({ data = [] }) => {
   return (
     <Fragment>
       <Box minW="container.md">
         <SimpleGrid columns={2} spacing={4} borderWidth="1px" borderRadius="lg">
           {data?.length > 0 &&
-            data.map((projects = {}, id) => {
+            data.map((requests = {}, id) => {
               return (
                 <LinkBox
                   as={Box}
-                  key={`projects-${id}`}
+                  key={`requests-${id}`}
                   p={4}
                   borderWidth="1px"
                   borderRadius="lg"
                   bg="white"
                 >
-                  <LinkOverlay href={`/projects/${projects?.id}`}>
+                  <LinkOverlay href={`/requests/${requests?.id}`}>
                     <HStack
                       justifyContent="space-between"
                       alignItems="flex-start"
                     >
                       <Heading size="md" color="teal">
-                        {projects.name}
+                        {requests.subject}
                       </Heading>
                     </HStack>
-                    <Text color="gray.400">{projects.alias}</Text>
-                    <Text>{projects.description}</Text>
+                    <Text color="gray.400">
+                      {requests.client} {requests.project}
+                    </Text>
+                    <Text>{requests.description}</Text>
                   </LinkOverlay>
                 </LinkBox>
               );
@@ -46,10 +48,11 @@ const Projects = ({ data = [] }) => {
     </Fragment>
   );
 };
-Projects.propTypes = {
+
+Requests.propTypes = {
   data: PropTypes.array,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
 };
 
-export default Projects;
+export default Requests;

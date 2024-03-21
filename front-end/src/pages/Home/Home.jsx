@@ -1,4 +1,4 @@
-import { Stack, Center, Button, Text } from "@chakra-ui/react";
+import { Stack, Center, Button, Text, VStack } from "@chakra-ui/react";
 import mockApi from "../../utils/mockApi";
 import { Outlet } from "react-router-dom";
 
@@ -11,14 +11,17 @@ function Home() {
   return (
     <Stack direction="column" justify="center" height="100vh" width="90vw">
       <Center fontSize="50px" fontWeight="medium">
-        <Text size="s">Hello World</Text>
-        <Button
-          data-test-id="btn-reset-data"
-          colorScheme="blue"
-          onClick={handleCancel}
-        >
-          Reset
-        </Button>
+        <VStack>
+          <Text size="m">Hello World</Text>
+
+          <Button
+            data-test-id="btn-reset-data"
+            colorScheme="blue"
+            onClick={handleCancel}
+          >
+            Reset
+          </Button>
+        </VStack>
       </Center>
       <Outlet />
     </Stack>
