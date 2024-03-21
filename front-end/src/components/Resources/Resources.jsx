@@ -21,6 +21,7 @@ const Resources = ({ data = [] }) => {
           borderRadius="md"
           variant="striped"
           colorScheme="teal"
+          data-test-id="resource-table"
         >
           <Thead position="sticky">
             <Tr>

@@ -67,5 +67,57 @@ beforeEach(() => {
         ).should("exist");
       });
     });
-  });
+
+    context("Delete Resource", () => {
+      beforeEach(() => {
+        cy.visit("/resources");
+      });
+
+      it("Deletes an entry", () => {
+        cy.get(`table[data-test-id="resource-table"]`).should("exist");
+
+        //cy.get(`a[class="chakra-linkbox__overlay css-1hnz6hu"]`).should("exist").click();
+        cy.contains(`a[class="chakra-linkbox__overlay css-1hnz6hu"]`,
+        "JisooChoi").should("exist").click();
+
+        cy.get(`form[data-test-id="resource-form"]`).should("exist");
+        cy.get(`form[data-test-id="resource-form"]`).click();
   
+        cy.get(`button[data-test-id="delete-resource"]`).should("exist");
+        cy.get(`button[data-test-id="delete-resource"]`).click();
+  
+        cy.contains(
+          `h2[class="swal2-title"]`,
+          "You are about to delete resource information"
+        ).should("exist");
+
+        cy.get(`button[class="swal2-confirm swal2-styled swal2-default-outline"]`).should("exist");
+        cy.get(`button[class="swal2-confirm swal2-styled swal2-default-outline"]`).click();
+
+      });
+
+    });
+
+    context("Update Resource", () => {
+      beforeEach(() => {
+        cy.visit("/resources");
+      });
+
+      it("Updates an entry", () => {
+        cy.get(`table[data-test-id="resource-table"]`).should("exist");
+
+        cy.contains(`a[class="chakra-linkbox__overlay css-1hnz6hu"]`,
+        "Nayeon Santos Im").should("exist").click();
+
+        cy.get(`button[data-test-id="resource-form-submit"]`).should("exist");
+        cy.get(`button[data-test-id="resource-form-submit"]`).click();
+
+        cy.get(`#select-resource-type`).select("Project Manager");
+        cy.get(`#select-resource-type`).should("have.value", "PM");
+
+        cy.get(`button[data-test-id="resource-form-submit"]`).should("exist");
+        cy.get(`button[data-test-id="resource-form-submit"]`).click();
+
+      });
+    });
+  });
