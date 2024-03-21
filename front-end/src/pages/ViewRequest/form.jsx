@@ -51,13 +51,9 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleAdd}>
+    <form onSubmit={handleAdd} data-test-id="requests-form">
       <Stack w="container.md">
-        <FormControl
-          isRequired
-          isReadOnly={!isEditing}
-          isInvalid={errors?.client}
-        >
+        <FormControl isReadOnly={!isEditing} isInvalid={errors?.client}>
           <FormLabel>Client Name</FormLabel>
           <Input
             type="text"
@@ -67,11 +63,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.client}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isReadOnly={!isEditing}
-          isInvalid={errors?.project}
-        >
+        <FormControl isReadOnly={!isEditing} isInvalid={errors?.project}>
           <FormLabel>Project Name</FormLabel>
           <Input
             type="text"
@@ -81,11 +73,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.project}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isReadOnly={!isEditing}
-          isInvalid={errors?.subject}
-        >
+        <FormControl isReadOnly={!isEditing} isInvalid={errors?.subject}>
           <FormLabel>Subject</FormLabel>
           <Input
             type="text"
@@ -95,11 +83,7 @@ const Form = () => {
           />
           <FormErrorMessage>{errors?.subject}</FormErrorMessage>
         </FormControl>
-        <FormControl
-          isRequired
-          isReadOnly={!isEditing}
-          isInvalid={errors?.description}
-        >
+        <FormControl isReadOnly={!isEditing}>
           <FormLabel>Description</FormLabel>
           <Textarea
             type="text"
@@ -107,15 +91,20 @@ const Form = () => {
             value={formData.description}
             onChange={handleChange}
           />
-          <FormErrorMessage>{errors?.description}</FormErrorMessage>
         </FormControl>
         <HStack justify="flex-end">
           {!isEditing && (
             <>
-              <Button colorScheme="gray" type="button" onClick={handleBack}>
+              <Button
+                data-test-id="requests-form-cancel"
+                colorScheme="gray"
+                type="button"
+                onClick={handleBack}
+              >
                 Back
               </Button>
               <Button
+                data-test-id="requests-form-submit"
                 colorScheme="gray"
                 type="button"
                 onClick={() => dispatch({ type: "SET_EDIT", isEditing: true })}
@@ -129,11 +118,20 @@ const Form = () => {
               <Button colorScheme="gray" type="button" onClick={handleReset}>
                 Reset
               </Button>
-              <Button colorScheme="gray" type="button" onClick={handleBack}>
+              <Button
+                data-test-id="requests-form-cancel"
+                colorScheme="gray"
+                type="button"
+                onClick={handleBack}
+              >
                 Back
               </Button>
-              <Button colorScheme="green" type="submit">
-                {id === "add" ? `Add` : `Update`} Requests
+              <Button
+                data-test-id="requests-form-submit"
+                colorScheme="green"
+                type="submit"
+              >
+                {id === "add" ? `Add` : `Update`} Request
               </Button>
             </>
           )}

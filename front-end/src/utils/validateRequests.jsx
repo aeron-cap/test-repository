@@ -16,11 +16,6 @@ const validateRequests = (data) => {
     retData.errors.subject = "Subject is Required";
   }
 
-  if (data?.description?.length < 1) {
-    retData.isValid = false;
-    retData.errors.description = "Desciption is Required";
-  }
-
   return retData;
 };
 

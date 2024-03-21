@@ -62,7 +62,7 @@ const RequestsProvider = ({ id = "add", children }) => {
     if (status && !(data?.id > -1)) {
       navigate(`/requests/${newData?.id}`);
       Swal.fire({
-        title: "Request Added",
+        title: "Request was added successfully!",
         confirmButtonText: "Ok",
         icon: "success",
       });
