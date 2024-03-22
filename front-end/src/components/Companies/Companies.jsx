@@ -20,7 +20,7 @@ const Companies = ({ data = [] }) => {
   return (
     <Fragment>
       <TableContainer p={5}>
-        <Table bg="white" borderRadius="md">
+        <Table bg="white" borderRadius="md" data-test-id="company-table">
           <Thead>
             <Tr>
               <Th color="teal" fontSize="lg">

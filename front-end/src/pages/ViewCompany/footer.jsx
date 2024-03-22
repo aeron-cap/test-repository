@@ -10,7 +10,12 @@ const Footer = () => {
     <>
       <Box padding={3}>
         {id > -1 && (
-          <Button colorScheme="red" size="md" onClick={handleDeleteCompany}>
+          <Button
+            data-test-id="delete-company"
+            colorScheme="red"
+            size="md"
+            onClick={handleDeleteCompany}
+          >
             Delete
           </Button>
         )}
